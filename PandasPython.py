@@ -156,3 +156,18 @@ print(np.random.randint(10,340,32))
 df2 = pd.DataFrame(np.random.randint(10,340,(32,4)),mlindex,['Jan','Feb','Mar','Apr'])
 print(df2)
 print(df2.transpose())
+df2.index.names = ['Company','Department','KPI']
+print(df2)
+
+print(df2.groupby('KPI').sum())
+print(df2.groupby('KPI').sum()['Jan'])
+print(df2.groupby('KPI').sum()['Jan'].loc['Earning'])
+
+print(df2.groupby('Department').sum())
+print(df2.groupby('Department').sum()['Jan'])
+print(df2.groupby('Department').sum()['Jan'].loc['HR'])
+
+print(df2.groupby('Department').describe())
+print(df2.groupby('Department').describe().transpose())
+
+#--------------------Merging, Joinning and Concatenating data--------------------
