@@ -1,0 +1,89 @@
+----------GIT command line--------------
+SVN is centrally locatted version control system.
+GIT is distributed version control system.
+
+git --version
+git config --global user.name "Pankaj Sanwal"
+git config --global user.email "sanwal.pankaj@gmail.com"
+
+git config --list
+
+git help config
+git config --help
+
+Scenario 1 : When you have a project in your local machine which you want to start tracking.
+--------------------------------------------------------------------------------------------
+
+Navigate to the directory which you want to track (project folder).
+git init
+This will create a .git directory inside the directory from which you ran git init command.
+If at any point of time you want to stop tracking the project, just remove the .git directory.
+git status
+This will give status of git repository , list of untracked files.
+If you git to ignore some files from your local code then those files name should be entered in .gitignore file.
+
+1. Make a .gitignore file with any text editor.
+2. Open file and enter file names whch you donot want to be tracked or visible in the remote directory. you can even use wildcards.
+3. Run git status again and it should not show the file names you just added in .gitignore in the files not being tracked list. It will howeverver show .gitignore file there. We need to upload .gitignore file in remote reporsitory.
+
+Now lets say you have made a lot of changes spanning different files and you want to commit them now. A nice approach would be to add a detail comment for a set of changes.
+You obviously donot want to add a single comment like 'Lots of changes done" for all changes. So staging area comes into picture now.
+
+Staging area is a area where you first add the files and the later commit them. This way you can add small chunk of files to staging first and then commit them from staging with nice details.
+
+git add -A ## This will add all the files in untracked list to staging area.
+git add <filename> ## This will add only the specified file to staging.
+git reset <filename> ## This will remove the specified file from stage and add it back to untracked list.
+git reset ## If ran without any arguement it will remove all the file from and add them back to untracked list.
+git commit -m "<Comment>" ## This will commit files present in stage area withh the comment specified in <Comment> section.
+git log ## This will list the commits done since the project is being tracked along with information like user , email and comment.  
+
+Scenario 2 : When there is a project existing remotely on which you want to start your development work.
+---------------------------------------------------------------------------------------------------------
+###Cloning remote repository###
+-------------------------------
+git clone <URL or local folder where your remote repositoru is> <where you want to clone it in local machine> ## When you clone repository from github you generally have the repository URL given.
+
+## Viewing Information about remote repository.
+git remote -v
+git branch -a
+
+## Making changes to code in cloned repository and commit them locally first.
+git diff
+git add -A
+git commit -m "comment"
+
+## Pusing the changes to remote repository.
+git pull origin master ## Origin is the name of local repository and master is the branch to which we want to commit the changes. We always need to pull first because many other developers might be commiting chnages to code when you are working on your local copy. So pull command first pulls all the chnages from remote and updates the local repository, then push will push all the changes made by you to the remote repository.
+git push origin master
+
+#############Branches####################
+-----------------------------------------
+So far we have been working on our master branch. But most developers who use git create branches to work on a specific feature.
+git branch <branch name> ## This will create a branch with the name specified in command line.
+git branch ## This will show all bracnhes in your local copy of remote repository. You are currently working with the one having * sign in front of it.
+git checkout <branch name> ## This will swap the branch you were working on previously with the branch name specified in command line.
+
+##Now go on and make some changes into code of any file and save it. add the changed file to stage and then commit as we used to do before.
+git status
+git add -A
+git commit -m "Comment"
+
+##Now commiting the changes to a branch will not have any effect on the master branch on local copy and on the remote repository. You now need to push the changes to remote repository.
+git push -u origin <Barnch name>  ## -u tells that in the furture we want to associate our local <Branch name> to our remote branch <Branch name>. This needs to be done first time only, from next time git push and git pull will automatically push changes to the corresponding branch on remote repository.
+git push
+git pull
+git branch -a ## This will list all branches, in your local copy and remote repository.
+
+##Companies use These branches to keep the development away from master branch, they code new functionality, test them in branches and once all the tests gets passed, these branches are merged back to master.
+git checkout master ## To change the default branch to master
+git pull origin master ## Pull master from remote to make sure that local copy is up to date.
+git branch --merged ## This list down all branches which are already merged with master.
+git merge <Branch name> ## This will merged the mentioned branch to master in local reporsitory.
+git push origin master ## This will push the locally merged copy to global repository.
+
+##Now we are done with the change and we want to delete the branch.
+git branch --merged ## Check if the branch you are going to delete is already merged.
+git branch -d <branch name> ## Delet the branch from local copy of repository
+git branch -a ## Run this and you no longer see the branch in local repo but it is still existing in remote repo.
+git push origin --delete <branch name> ## This will delete the branch from remote repo as well.
