@@ -38,6 +38,12 @@ git reset ## If ran without any arguement it will remove all the file from and a
 git commit -m "<Comment>" ## This will commit files present in stage area withh the comment specified in <Comment> section.
 git log ## This will list the commits done since the project is being tracked along with information like user , email and comment.  
 
+Now lets say you want to move your local project to github website
+git remote add origin <remote repository URL> ## Remote repository URL can be obtained from github website when you create a repository. You want to upload your work to this remote repository therefore you are adding this remote URL to your local repository.
+git remote -v ## Verifis the remote URL.
+
+git push origin master ## Pushes the changes in your local repository up to the remote repository you specified as the origin
+
 Scenario 2 : When there is a project existing remotely on which you want to start your development work.
 ---------------------------------------------------------------------------------------------------------
 ###Cloning remote repository###
