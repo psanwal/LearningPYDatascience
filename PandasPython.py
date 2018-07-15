@@ -171,3 +171,62 @@ print(df2.groupby('Department').describe())
 print(df2.groupby('Department').describe().transpose())
 
 #--------------------Merging, Joinning and Concatenating data--------------------
+
+dfa = pd.DataFrame({'A':['A0','A1','A2'],'B':['B0','B1','B2']}, index = [0,1,2])
+print(dfa)
+dfb = pd.DataFrame({'C':['C0','C1','C2']}, index = [0,1,2])
+print(dfb)
+dfc = pd.DataFrame({'D':['D0','D1'],'E':['E0','E1']},index=[0,1])
+print(dfc)
+
+print(pd.concat([dfa,dfb],axis=0,sort=True))
+print(pd.concat([dfa,dfb],axis=1,sort=True))
+print(pd.concat([dfa,dfb,dfc],axis=0,sort=True))
+print(pd.concat([dfa,dfb,dfc],axis=1,sort=True))
+
+# Merging works here same as in SQL on the basis of a key column
+# We can also use Outer, left and right joins while merging. 
+dfa = pd.DataFrame({'A':['A0','A1','A2'],'B':['B0','B1','B2'],'Key':['K0','K1','K2']}, index = [0,1,2])
+dfb = pd.DataFrame({'C':['C0','C1','C2'],'D':['D0','D1','D2'],'Key':['K0','K1','K2']}, index = [0,1,2])
+print(pd.merge(dfa,dfb,how='inner',on='Key'))
+
+dfa = pd.DataFrame({'A':['A0','A1','A2'],'B':['B0','B1','B2'],'Key1':['K0','K1','K0'],'Key2':['K1','K2','K0']})
+dfb = pd.DataFrame({'C':['C0','C1','C2'],'D':['D0','D1','D2'],'Key1':['K0','K1','K2'],'Key2':['K1','K0','K0']})
+print(pd.merge(dfa,dfb,how='inner',on=['Key1','Key2']))
+
+# Joining is same as merging but it does the join on index column unlike merge where we have to specify the key colmn.
+# Column name should not be repeated when we are using join, we can specify the alias of duplicate column.
+dfa = pd.DataFrame({'A':['A0','A1','A2'],'B':['B0','B1','B2']})
+dfb = pd.DataFrame({'C':['C0','C1','C2'],'D':['D0','D1','D2']})
+print(dfa.join(dfb)) # We also have how parameter available here where we can specify inner, outer, left or right.
+
+#-----------------------Operations----------------------
+# Finding Unique value
+dfa = pd.DataFrame({'A':[1,2,3,4],'B':[222,333,444,444],'C':['abc','def','jki','xyz']})
+print(dfa['B'].unique()) # Return an array of unique value in specified column. You have to specify column name.
+print(len(dfa['B'].unique())) # Will give the lenght of unique value array retruned by unique method, or we can say give the count of unique values in a column.
+print(dfa['B'].nunique()) # Will give the count of unique value in a column.
+print(dfa['B'].value_counts()) # Will retrun which value appeared how many times in the column.
+
+# Conditional Seclection refresher.
+print(dfa[dfa['A']>2])
+print(dfa[(dfa['A']>2) & (dfa['B']==222)])
+
+# Apply function. It is used to apply a user defined fuction to each elemnt of selected data frame (single or multiple columns).
+print(dfa[dfa['A']>2].apply(lambda x:x*2))
+print(dfa[dfa['A']>2]['A'].apply(lambda x:x*2))
+
+# Removing columns and Rows
+dfa.drop('A', inplace= True,axis=1) # This will drop Column A from DataFrame as axis=1
+dfa.drop(index=3, inplace= True,axis=1) # This will drop row with index 3
+print(dfa)
+
+# Returning Columnname and Indexes.
+print(dfa.columns) # This will retun an array of column names.
+print(dfa.index) # This will retun the type of index of DataFrame.
+
+# Sorting values.
+dfa = pd.DataFrame({'A':[1,2,3,4],'B':[444,333,222,444],'C':['def','abc','xyz','jki']},index=['pan','pra','bwa','vin'])
+print(dfa)
+print(dfa.sort_values())
+
