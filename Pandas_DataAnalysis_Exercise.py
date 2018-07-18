@@ -1,0 +1,12 @@
+import pandas as pd
+sal = pd.read_csv('SupportFiles/Salaries.csv')
+print(sal.head())
+sal.info()
+print(sal[sal['BasePay'] != 'Not Provided' ]['BasePay'].dropna().astype(float).mean())
+print(sal[sal['OvertimePay'] != 'Not Provided' ]['OvertimePay'].dropna().astype(float).max())
+print(sal[sal['EmployeeName']=='JOSEPH DRISCOLL']['JobTitle'])
+print(sal[sal['EmployeeName']=='JOSEPH DRISCOLL']['TotalPayBenefits'])
+print(sal[sal['TotalPayBenefits'] == sal['TotalPayBenefits'].max()]['EmployeeName'])
+print(sal[sal['TotalPayBenefits'] == sal['TotalPayBenefits'].min()]['EmployeeName'])
+print(sal[sal['BasePay'] != 'Not Provided' ][['BasePay','Year']].dropna().astype(float).groupby('Year').mean())
+#print(sal[['Year','BasePay']].groupby('Year').mean())

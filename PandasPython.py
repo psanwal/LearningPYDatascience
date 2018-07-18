@@ -237,13 +237,13 @@ print(dfa.isnull()) # This will return a boolean array with TRUE wherever the va
 print(dfa.pivot_table(values='B',index=['A'], columns='C')) # This will create a pivot table using the values, Index and Columns arguement. If a list if passed with more than 2 values then a multilevel index will be created.
 
 #---------------------------Input and Output data with Pandas-----------
-dfa.to_csv('My_Example_File.csv', index=False) # Dump data to csv file. Index is set to false to prevent the index to be exported too. 
+dfa.to_csv('SupportFiles\My_Example_File.csv', index=False) # Dump data to csv file. Index is set to false to prevent the index to be exported too. 
 # If index too gets exported then you will see an extra column when you import this file next time. 
 # Pandas changes index into a new column while exporting it to file if not set to false.
-dfb = pd.read_csv('My_Example_File.csv') # This will import the data from csv.
+dfb = pd.read_csv('SupportFiles\My_Example_File.csv') # This will import the data from csv.
 print(dfb)
-dfa.to_excel('My_Example_Excel.xlsx',sheet_name='Sheet3') # This will write dfa DataFrame to excel file.
-dfb = pd.read_excel('My_Example_Excel.xlsx',sheet_name='Sheet3') # This will read data from excel file. Keep in mind that Pandas can only read data, no formulas or macros will be imported. Pandas may crash if any such file is imported.
+dfa.to_excel('Support\FilesMy_Example_Excel.xlsx',sheet_name='Sheet3') # This will write dfa DataFrame to excel file.
+dfb = pd.read_excel('Support\FilesMy_Example_Excel.xlsx',sheet_name='Sheet3') # This will read data from excel file. Keep in mind that Pandas can only read data, no formulas or macros will be imported. Pandas may crash if any such file is imported.
 print(dfb)
 
 # There are some other methods like pd.read_html() and pd.read_sql() can also be used. read_html will read all table tags from the HTML link provided.
