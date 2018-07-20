@@ -90,3 +90,39 @@ axes.legend()
 axes.legend(loc=0)
 # Lets say none of these value works for you, you can provide a tuple to loc parameter specifiying the x and y value.
 axes.legend(loc=(0.1,0.1))
+
+#%%
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0,5,11)
+y = x**2
+fig = plt.figure()
+axes = fig.add_axes([0,0,1,1])
+
+# Color can take color name, RGS value and many other options.
+# linewidth defines how thick the line will be. Default is 1.
+# alpha will decide the transparency of line. Higer the value towards 1 darker the line.
+# linestyle defines the type of line, there are many options which you can check in documentation.
+axes.plot(y,x, color='blue', linewidth=5,alpha=1, linestyle='--', marker='*', markersize=20
+,markerfacecolor='yellow', markeredgewidth=2, markeredgecolor='green')
+
+# Markers : They are used when we have very few data points on our plot.
+# Markers will make the data points along the line visible.
+# There are a lot of marker types which you can see in documentation.
+axes.plot(x,y, color='red', linewidth=5,alpha=1, marker='o', markersize=20
+,markerfacecolor='yellow', markeredgewidth=2, markeredgecolor='green')
+
+#%%
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.linspace(0,5,11)
+y = x**2
+fig = plt.figure()
+axes = fig.add_axes([0,0,1,1])
+# Control over axis appearence
+axes.plot(x,y, color='blue', linewidth=1,alpha=1, linestyle='--')
+axes.set_xlim([0,1])
+axes.set_ylim([0,2])
+
+# Plot Types : Matplotlib has a lot of options when it comes to plot types. Please refer the documentation.
+
