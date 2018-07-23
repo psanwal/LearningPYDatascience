@@ -54,8 +54,45 @@ sns.barplot(data=tips, x='sex', y='total_bill', estimator=np.std)
 sns.countplot(data=tips, x='sex')
 
 #%%
-# Box Plot : x is categorical and y should be numerical,data will hold dataframe.
+import seaborn as sns
+import numpy as np
+tips = sns.load_dataset('tips')
+tips.head()
+# Box Plot : x is categorical and y should be numerical,data paremeter will hold dataframe.
+# Box plot shows the quartiles of the dataset.
+# Hue parameter adds another layer fo data to box plots.
+sns.boxplot(data=tips,x='day',y='total_bill', hue='smoker')
 
-sns.boxplot(data=tips,x='day',y='total_bill')
-
+#%%
 # Violin Plot
+sns.violinplot(data=tips, x='day', y='total_bill', hue='sex', split=True)
+
+#%%
+# Strip Plot
+sns.stripplot(x='day', y='total_bill',data=tips, jitter=True, hue='sex', split=True)
+
+#%%
+# SwarmPlot : Combination of scatter and Strip plot.
+sns.violinplot(data=tips, x='day', y='total_bill')
+sns.swarmplot(data=tips, x='day', y='total_bill', color='black')
+
+#%%
+#Factor Plot : They are most general form of all types of plot.
+# It takes a kind arguement which defines the factor plot itself. in other words you can use any plot we have used before in king arguement.
+sns.factorplot(data=tips, x='day', y='total_bill', kind='violin')
+
+#---------------------Matrix Plots (Primarily heat maps)-----------------------
+#%%
+import seaborn as sns
+tips = sns.load_dataset('tips')
+flights = sns.load_dataset('flights')
+flights.head()
+
+# Heat maps are generally used to show data which is in form of matrices.
+# Matrices here means the data value in a cell should be related to index and column name.
+# in Tips dataframe, index are just sequential numbers. To chnage this dataset into a meaningfull matrix we can use dataframe's corr() method.
+tc = tips.corr()
+sns.heatmap(tc)
+fc = flights.corr()
+sns.heatmap(fc)
+
