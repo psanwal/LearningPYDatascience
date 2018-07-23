@@ -86,9 +86,8 @@ sns.factorplot(data=tips, x='day', y='total_bill', kind='violin')
 import seaborn as sns
 tips = sns.load_dataset('tips')
 flights = sns.load_dataset('flights')
-flights.head()
 
-# Heat maps are generally used to show data which is in form of matrices.
+# Heat maps are generally used to show data which is in form of matrices. values in the matrix will be assigned to a fragient scale and you can see the relatove change in datacells thru this graph.
 # Matrices here means the data value in a cell should be related to index and column name.
 # in Tips dataframe, index are just sequential numbers. To chnage this dataset into a meaningfull matrix we can use dataframe's corr() method.
 tc = tips.corr()
@@ -96,3 +95,73 @@ sns.heatmap(tc)
 fc = flights.corr()
 sns.heatmap(fc)
 
+# Annotation=True will annotate the actual numericall values in the cells
+sns.heatmap(tc, annot=True)
+
+# cmap takes a string arguement which represents the color map.
+sns.heatmap(tc, annot=True, cmap='coolwarm')
+
+#%%
+flights.head()
+fp = flights.pivot_table(index='month', columns='year', values='passengers')
+sns.heatmap(fp)
+
+#%%
+sns.heatmap(fp, cmap='coolwarm', linewidths=1, linecolor='white')
+
+#%%
+## Cluster Map : These plots actually cluster the information in the matrix based on similarity.
+# They are basically the heat maps but clustered.
+sns.clustermap(fp, cmap='coolwarm', standard_scale=1)
+
+#%%
+#---------------------GRIDS Plots---------------------
+import matplotlib.pyplot as plt
+import seaborn as sns
+iris = sns.load_dataset('iris')
+iris.head()
+
+# Pair plot as we read earlier just plots every column in the dataset with every other column.
+sns.pairplot(iris)
+
+#%%
+# Pair grid is similar to pairplot but user will have a lot more controls about the graph being retirned but for that you have to provide extra arguements.
+sns.PairGrid(iris) # This will retrun empty plots
+# This is how to use PairGrid
+import matplotlib.pyplot as plt
+f = sns.PairGrid(iris)
+f.map_diag(sns.distplot)
+f.map_upper(plt.scatter)
+f.map_lower(sns.kdeplot)
+
+#%%
+# Facetgrid
+fg = sns.FacetGrid(data=tips, row='time', col='smoker')
+fg.map(plt.scatter, 'total_bill', 'tip')
+
+
+#%%
+#----------------------Regression Plots-------------------------
+# lmplot shows a simple liner regression plots.
+# if You want to take a third diemnsion then assign a categorial datatype to hue parameter.
+# You can also set the markers and increase size of markers.
+sns.lmplot(x='total_bill', y='tip', data=tips, hue='smoker', markers=['o','v'], scatter_kws={'s':100})
+
+#%%
+# Unlike hue col will force LM plot to draw 2 separate graps for separate class of categorical data.
+# Now if you want to add a parameter further use row.
+# Now if you still want to add another parameter ,. you can still use hue.
+sns.lmplot(x='total_bill', y='tip', data=tips, col='sex', row='time', hue='day')
+
+#%%
+#---------------------------Set Styles----------------------
+sns.set_style() # Add tickets, chnage back ground colour. Check other options in documentation.
+sns.despine() # Remoe the x axis and y axis lines.
+# You can set the size in 2 ways. call plt.figure(figsize=()) before plotting any sns plot.
+# Or you can pass size and aspect parameter in almost every sns plot.
+sns.set_context() # It takes a context parameter like poster. if you still want bigger font then you can pass fontsize too.
+
+#%%
+#Palettes and colours. You can acually google the palette names for matplotlib.
+sns.lmplot(x='total_bill', y='tip', data=tips, hue='sex', palette='coolwarm')
+sns.lmplot(x='total_bill', y='tip', data=tips, hue='sex', palette='seismic')
