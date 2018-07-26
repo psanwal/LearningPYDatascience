@@ -84,16 +84,37 @@ sns.countplot(x=data_911['date'],data=data_911)
 
 #%%
 date_grp_date = data_911.groupby('date')
-date_grp_date.head()
 date_count_date = date_grp_date.count()
 date_count_date = date_count_date.reset_index()
-#date_count_date.head()
 sns.lineplot(data=date_count_date, x=date_count_date['date'], y=date_count_date['timeStamp'])
 
 #%%
-fg = sns.FacetGrid(data=data_911,col='reason')
-fg.map(plt.hist,'dayofweek')
+data_911_date_reason = data_911.groupby(['date', 'reason'])
+data_911_date_reason_count = data_911_date_reason.count()
+data_911_date_reason_count = data_911_date_reason_count.reset_index()
+fg = sns.FacetGrid(data=data_911_date_reason_count,col='reason')
+fg.map(sns.lineplot,'date','timeStamp')
 
 #%%
-data_911.pivot(index='dayofweek_str',columns='hour')
+data_dayofweek_hour_group = data_911.groupby(['dayofweek_str', 'hour'])
+data_dayofweek_hour_group_count = data_dayofweek_hour_group.count()
+#data_dayofweek_hour_group_count
+data_dayofweek_hour_group_count = data_dayofweek_hour_group_count['timeStamp'].unstack(level=-1)
 
+#%%
+sns.heatmap(data=data_dayofweek_hour_group_count)
+
+#%%
+sns.clustermap(data=data_dayofweek_hour_group_count)
+
+#%%
+data_dayofweek_month_group = data_911.groupby(['month','dayofweek_str'])
+data_dayofweek_month_group_count = data_dayofweek_month_group.count()
+#data_dayofweek_hour_group_count
+data_dayofweek_month_group_count = data_dayofweek_month_group_count['timeStamp'].unstack(level=0)
+
+#%%
+sns.heatmap(data=data_dayofweek_month_group_count)
+
+#%%
+sns.clustermap(data=data_dayofweek_month_group_count)
