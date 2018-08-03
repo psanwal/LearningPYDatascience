@@ -13,6 +13,7 @@ import numpy as np
 import seaborn as sns
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.model_selection import train_test_split
 
 #%%
 df = pd.read_csv(r'C:\Users\pankaj.sanwal\Desktop\PythonStuff\Python-Data-Science-and-Machine-Learning-Bootcamp\Python-Data-Science-and-Machine-Learning-Bootcamp\Machine Learning Sections\Logistic-Regression\titanic_train.csv')
@@ -34,11 +35,24 @@ is_male = pd.get_dummies(df['Sex'], drop_first=True)
 embarked = pd.get_dummies(df['Embarked'], drop_first=True)
 df = pd.concat([df , is_male, embarked], axis=1)
 # Dropping columns which would not add any value to our model.
-df.drop(['Sex','Embarked','Name','Ticket','Cabin','PassengerId'], axis=1, inplace=True)
+df.drop(['Sex','Embarked','Name','Ticket','Cabin'], axis=1, inplace=True)
 
 #%%
-df.head()
 mean_age = pd.DataFrame(df.groupby(['Pclass'])['Age'].mean())
-df['Age'].apply(lambda x : x if x.isnull() else 1)
 
+#%%
+df ['Age'] = df[['Age', 'Pclass']].apply(lambda x : mean_age.loc[x[1]][0] if pd.isnull(x[0]) else x[0] , axis=1)
 
+#%%
+lor = LogisticRegression()
+x_train, x_test, y_train, y_test = train_test_split(df.drop('Survived', axis=1), df['Survived'],test_size=0.30, random_state=101)
+
+#%%
+lor.fit(x_train,y_train)
+
+#%%
+predictions = lor.predict(x_test)
+print(classification_report(y_test, predictions))
+
+#%%
+confusion_matrix(y_test,predictions)
